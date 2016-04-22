@@ -1,3 +1,4 @@
+import os
 from conans import ConanFile, CMake
    
 class HelloConan(ConanFile):
@@ -9,6 +10,11 @@ class HelloConan(ConanFile):
    exports = "CMakeLists.txt", "hello.*", "main.cpp", "LICENSE", "README.md"
 
    def build(self):
+       os.mkdir('build')
+       os.chdir('build')
+       
+       self.run('conan install ..')
+       
        cmake = CMake(self.settings)
        self.run('cmake ..\\src %s' % cmake.command_line)
        self.run("cmake --build . %s" % cmake.build_config)
